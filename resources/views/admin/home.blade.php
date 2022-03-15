@@ -13,8 +13,8 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    {{ __('You are logged in!') }}
+                    {{ __('You are logged in!') }}     <!--__serve per la lingua-->
+                    {{ Auth::user()->name }}          <!--prendere un dato dall'user-->
                 </div>
             </div>
         </div>
