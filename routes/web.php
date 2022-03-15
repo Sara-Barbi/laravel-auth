@@ -24,9 +24,7 @@ Route::middleware('auth')   //solo se utente è loggato
 ->name('admin.')
 ->prefix('admin')
 ->group(function () {
-
     Route::get('/', 'HomeController@index')->name('home');
-
+    Route::resource('/posts','PostController');
 });
-
 
