@@ -41,8 +41,7 @@
     @error('time_cooking')
         <div class="alert alert-danger">{{ $message }}</div>
     @enderror
-
-
+    
     <button type="submit" class="btn btn-success m-5">Aggiungi</button>            <!--al bottone dobbiamo mettere type='submit' per svolgere l'invio dati, cghe agirà nella route che abbiamo stabilito nella form(riga6)-->
 </form>
 @endsection

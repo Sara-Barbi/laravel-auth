@@ -38,7 +38,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            "title"=>"required|string|max:80|unique:posts",
+            "title"=>"required|max:80",
             "ingredients"=>"required|string|max:200",
             "img"=>"required|url",
             "price"=>"required|numeric",
@@ -62,7 +62,7 @@ class PostController extends Controller
         $newPost= new Post();   
         $newPost->fill($data);     
         $newPost->save();                   
-        return redirect()->route('admin.posts.index');   
+        return redirect()->route('admin.posts.show');   
      
     }
 
@@ -96,11 +96,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $posts)
+    public function update(Request $request, Post $post)
     {
-        {
             $request->validate([
-                "title"=>"required|string|max:80|unique:posts",
+                "title"=>"required|max:80",
                 "ingredients"=>"required|string|max:200",
                 "img"=>"required|url",
                 "price"=>"required|numeric",
@@ -120,7 +119,7 @@ class PostController extends Controller
                 while(Post::where('slug',$slugTmp)
                     ->where('id','!=',$post->id)
                     ->first()){
-                    $slugTmp=Str::slug($data['title']).'-'.$count;   
+                    $slugTmp=Str::slug($data['title'])."-".$count;   
                     $count++;
                 }
             }
@@ -128,13 +127,9 @@ class PostController extends Controller
             $data['slug']=$slugTmp;
     
            
-            //creo post vuoto, inserisco i dati, salvo il post, lo spedisco nella index
-            $newPost= new Post();   
-            $post->update($data);     
-            $newPost->save();                   
-            return redirect()->route('admin.posts.index');   
-         
-        }
+            //inserisco i dati, salvo il post, lo spedisco nella index 
+            $post->update($data);                      
+            return redirect()->route('admin.posts.show',$post->id);  
         
     }
 
@@ -148,6 +143,6 @@ class PostController extends Controller
     {
         $post->delete();
         
-        return redirect()->route('posts.index')->with(['mes'=>'cancellato']);
+        return redirect()->route('admin.posts.index')->with(['mes'=>'cancellato']);
     }
 }
