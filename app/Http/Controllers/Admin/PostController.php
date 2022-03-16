@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Post;
-
+use Illuminate\Support\Str;
 class PostController extends Controller
 {
     /**
@@ -58,11 +58,12 @@ class PostController extends Controller
             $slugTmp=Str::slug($data['title']).'-'.$count;   
             $count++;
         }
-
+        //creo post vuoto, inserisco i dati, salvo il post, lo spedisco nella index
         $newPost= new Post();   
         $newPost->fill($data);     
         $newPost->save();                   
-        return redirect()->route('admin.posts.index');    
+        return redirect()->route('admin.posts.index');   
+     
     }
 
     /**
@@ -97,20 +98,43 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $posts)
     {
-        $request->validate([
-            "title"=>"required|string|max:80|unique:posts,title,{$post->id}",
-            "ingredients"=>"required|string|max:200",
-            "img"=>"required|url",
-            "price"=>"required|numeric",
-            "content"=>"required",
-            "time_cooking"=>"required",
-        ]);
-        //in questa fase abbiamo un codice che è uguale a quello nello store, ma al posto di generare un nuovo elemento(richiamando il Model)chiamo la variabile che lo rappresenta, che mi andrà a prendere proprio quell'oggetto li.
-        $data=$request->all();
-  
-        $post->update($data);                          //metodo meno sicuro ma più compatto a livello di codice
-
-        return redirect()->route('posts.show',$post->id);
+        {
+            $request->validate([
+                "title"=>"required|string|max:80|unique:posts",
+                "ingredients"=>"required|string|max:200",
+                "img"=>"required|url",
+                "price"=>"required|numeric",
+                "content"=>"required",
+                "time_cooking"=>"required",
+            ]);
+            //prendo i dati dalla form
+            $data=$request->all();
+            //se in edit modifico un campo e rimane lo stesso titolo
+            if($post->title == $data['title']){
+                $slugTmp=$data['slug'];
+            }else{
+                //creare slug con il title
+                $slugTmp =Str::slug($data['title']);
+                //creo un count,se slug esiste già ,finchè esiste,applica a quello slug -1, se esiste già,-2 ecc... 
+                $count= 1;
+                while(Post::where('slug',$slugTmp)
+                    ->where('id','!=',$post->id)
+                    ->first()){
+                    $slugTmp=Str::slug($data['title']).'-'.$count;   
+                    $count++;
+                }
+            }
+            
+            $data['slug']=$slugTmp;
+    
+           
+            //creo post vuoto, inserisco i dati, salvo il post, lo spedisco nella index
+            $newPost= new Post();   
+            $post->update($data);     
+            $newPost->save();                   
+            return redirect()->route('admin.posts.index');   
+         
+        }
         
     }
 
