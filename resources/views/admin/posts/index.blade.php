@@ -10,7 +10,9 @@
 <div class="container d-flex flex-column align-items-center">
     <h1>{{$post->title}}</h1>
     <p><strong>Time Cooking:</strong> {{$post->time_cooking}}</p>
-    <img src="{{$post->thumb}}" alt="">
+    <div class="col-5">
+        <img class="w-100" src="{{$post->img}}" alt="">
+    </div>
     <p><strong>ingredients:</strong> {{$post->ingredients}}</p>
     <ul class="p-0">
         <strong>Description:</strong> 
