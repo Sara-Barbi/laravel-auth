@@ -17,7 +17,10 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('content');
-            $table->boolean('published')->default(false);  
+            $table->string('img');
+            $table->string('ingredients');
+            $table->string('price');
+            $table->string('time_cooking'); 
             $table->string('slug')->unique();   //lo slug verrà poi utilizzato per recuperare i dati del nostro post specifico 
             $table->timestamps();
         });

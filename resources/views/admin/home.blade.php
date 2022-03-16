@@ -17,6 +17,7 @@
                     {{ Auth::user()->name }}          <!--prendere un dato dall'user-->
                 </div>
             </div>
+            <button><a href="{{ route('admin.posts.index') }}"></a></button>
         </div>
     </div>
 </div>
