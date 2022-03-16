@@ -62,7 +62,7 @@ class PostController extends Controller
         $newPost= new Post();   
         $newPost->fill($data);     
         $newPost->save();                   
-        return redirect()->route('admin.posts.show');   
+        return redirect()->route('admin.posts.index');   
      
     }
 
@@ -97,7 +97,7 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Post $post)
-    {
+        {
             $request->validate([
                 "title"=>"required|max:80",
                 "ingredients"=>"required|string|max:200",
@@ -130,8 +130,9 @@ class PostController extends Controller
             //inserisco i dati, salvo il post, lo spedisco nella index 
             $post->update($data);                      
             return redirect()->route('admin.posts.show',$post->id);  
+         
+        }
         
-    }
 
     /**
      * Remove the specified resource from storage.
