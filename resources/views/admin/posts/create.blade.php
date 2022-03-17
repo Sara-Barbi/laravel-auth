@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title','posts list')
+@section('title','new post list')
 
 @section('content')
 <form action="{{ route("admin.posts.store") }}" class="text-center d-flex flex-column align-items-center" method='POST'>   <!--con action="{route("posts.store")}" stabilisco la rotta dove andranno i miei dati il metodo che dobbiamo usare è post e questo lo vediamo nella route list accandto a posts.store -->
@@ -41,7 +41,7 @@
     @error('time_cooking')
         <div class="alert alert-danger">{{ $message }}</div>
     @enderror
-    
+
     <button type="submit" class="btn btn-success m-5">Aggiungi</button>            <!--al bottone dobbiamo mettere type='submit' per svolgere l'invio dati, cghe agirà nella route che abbiamo stabilito nella form(riga6)-->
 </form>
 @endsection

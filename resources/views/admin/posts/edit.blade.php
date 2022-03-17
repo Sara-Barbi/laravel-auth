@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title','posts list')
+@section('title','post change')
 
 @section('content')
 <form action="{{ route("admin.posts.update",$post->id) }}" class="text-center d-flex flex-column align-items-center" method='POST'>   <!--post->id serve per recuperate proprio quell'elem con quell'id. dove lo trovo? semplice , nel Controller nella sezione edit vedrò che ho passato la variabile post che contiene il singolo elemento dove abbiamo cliccato edit-->

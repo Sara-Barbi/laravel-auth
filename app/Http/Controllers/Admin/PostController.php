@@ -50,14 +50,14 @@ class PostController extends Controller
 
         //creare slug con il title
         $slugTmp =Str::slug($data['title']);
-        $data['slug']=$slugTmp;
-
+        
         //creo un count,se slug esiste già ,finchè esiste,applica a quello slug -1, se esiste già,-2 ecc... 
         $count= 1;
         while(Post::where('slug',$slugTmp)->first()){
             $slugTmp=Str::slug($data['title']).'-'.$count;   
             $count++;
         }
+        $data['slug']=$slugTmp;
         //creo post vuoto, inserisco i dati, salvo il post, lo spedisco nella index
         $newPost= new Post();   
         $newPost->fill($data);     
@@ -110,7 +110,7 @@ class PostController extends Controller
             $data=$request->all();
             //se in edit modifico un campo e rimane lo stesso titolo
             if($post->title == $data['title']){
-                $slugTmp=$data['slug'];
+                $slugTmp=$post->slug;
             }else{
                 //creare slug con il title
                 $slugTmp =Str::slug($data['title']);
@@ -123,7 +123,7 @@ class PostController extends Controller
                     $count++;
                 }
             }
-            
+       
             $data['slug']=$slugTmp;
     
            
